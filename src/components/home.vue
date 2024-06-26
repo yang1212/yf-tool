@@ -1,7 +1,6 @@
 <template>
   <div>
-    <p class="page-title">数据录入</p>
-    <editor-content :editor="editor" />
+    <p class="page-title">文本录入</p>
     <div class="page-box">
       <el-form :model="dynamicValidateForm"  :inline="true" ref="dynamicValidateForm" label-width="120px" class="demo-dynamic">
         <div v-show="!showGenerate" v-for="(item, index) in dynamicValidateForm.formList"  :key="item.key" class="form-item">
@@ -23,7 +22,8 @@
               required: true, message: '内容不能为空', trigger: 'blur'
             }"
           >
-            <el-input v-model="item.content"></el-input>
+            <el-input v-model="item.content" v-if="index===0"></el-input>
+            <vue-editor v-model="item.content" v-else></vue-editor>
           </el-form-item>
           <el-form-item>
             <el-button @click.prevent="removecontent(index)" v-show="dynamicValidateForm.formList.length !== 1">删除</el-button>
@@ -55,14 +55,12 @@
 import html2canvas from 'html2canvas';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
-import { Editor } from '@tiptap/core'
-import StarterKit from '@tiptap/starter-kit'
-import { EditorContent } from '@tiptap/vue-2'
+import { VueEditor } from "vue2-editor";
 
 export default {
   name: 'HomePage',
   components: {
-    EditorContent,
+    VueEditor,
   },
   data() {
     return {
@@ -76,12 +74,7 @@ export default {
           }
         ],
       },
-      editor: new Editor({
-        extensions: [
-          StarterKit,
-        ],
-        content: '<p>Hello World!</p>',
-      }),
+      content: "<h1>Some initial content</h1>"
     }
   },
   created() {
@@ -169,7 +162,7 @@ export default {
   z-index: 2;
 }
 .page-box {
-  width: 1000px;
+  width: 1200px;
   padding-top: 100px;
 }
 .form-item {
@@ -184,7 +177,7 @@ export default {
   width: 300px;
 }
 .form-content {
-  width: 700px;
+  width: 1000px;
 }
 .form-content .el-input {
   width: 500px;
@@ -245,10 +238,13 @@ export default {
   text-align: center;
 }
 /* 自定义样式 */
-.ProseMirror {
-  min-height: 300px;
-  border: 1px solid #ddd;
-  padding: 10px;
+#editor1 {
+  height: 350px;
+  width: 400px;
+}
+.quillWrapper {
+  padding-top: 15px;
+  width: 800px;
 }
 </style>
 
