@@ -1,3 +1,3 @@
 # yf-tool
 
-http://yangfu.asia/
+[yf-tool.pages.dev](https://yf-tool.pages.dev/)
